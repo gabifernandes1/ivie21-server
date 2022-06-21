@@ -18,7 +18,7 @@ app.listen(port, () => {
 app.get('/getConvidados', (req, res, err) => {
 	try {
 		MongoClient.connect(
-			process.env.URL,
+			'mongodb+srv://ivie21:VOC6w6r7u@ivie21.tkbqi.mongodb.net/?retryWrites=true&w=majority',
 			{ useUnifiedTopology: true },
 			function (err, db) {
 				if (err) throw err;
