@@ -35,5 +35,6 @@ app.get('/getConvidados', (req, res, err) => {
 		});
 	} catch (e) {
 		console.log(err);
+		console.log('oi');
 	}
 });
