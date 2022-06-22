@@ -16,8 +16,7 @@ app.listen(process.env.PORT || 8000, () => {
 	console.log(`App UI available http://localhost:${port}`);
 });
 
-const url =
-	'mongodb+srv://ivie21:VOC6w6r7u@ivie21.tkbqi.mongodb.net/?retryWrites=true&w=majority';
+const url = process.env.URL;
 app.get('/getConvidados', (req, res, err) => {
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
@@ -34,6 +33,5 @@ app.get('/getConvidados', (req, res, err) => {
 		});
 	} catch (e) {
 		console.log(err);
-		console.log('oi');
 	}
 });
