@@ -34,6 +34,6 @@ app.get('/getConvidados', (req, res, err) => {
 				});
 		});
 	} catch (e) {
-		console.log(e);
+		console.log(err);
 	}
 });
