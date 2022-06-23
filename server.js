@@ -37,6 +37,7 @@ app.get('/getConvidados', (req, res, err) => {
 				.find({})
 				.toArray(function (err, result) {
 					if (err) throw 'err';
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send(result);
 				});
 		});
@@ -53,6 +54,7 @@ app.post('/adicionar', (req, res, err) => {
 				.collection('convidados')
 				.insertOne(req.body, function (err, response) {
 					if (err) throw 'err';
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document inserted');
 					res.end('Success');
 					db.close();
@@ -64,6 +66,7 @@ app.post('/adicionar', (req, res, err) => {
 });
 
 app.post('/confirmacao', (req, res, err) => {
+	console.log('?');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
@@ -79,6 +82,7 @@ app.post('/confirmacao', (req, res, err) => {
 				.updateOne(myquery, newvalues, function (err, response) {
 					if (err) throw err;
 					console.log(response);
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document updated');
 					db.close();
 				});
@@ -102,6 +106,7 @@ app.post('/entrou', (req, res, err) => {
 				.updateOne(query, newvalues, function (err, response) {
 					if (err) throw err;
 					console.log(response);
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document updated');
 					db.close();
 				});
@@ -126,8 +131,9 @@ app.post('/check', (req, res, err) => {
 				.collection('convidados')
 				.find(query)
 				.toArray(function (err, response) {
-					if (err) res.send(err);
+					if (err) throw err;
 					console.log(response, '?');
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send(response);
 					db.close();
 				});
