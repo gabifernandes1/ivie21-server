@@ -21,7 +21,7 @@ app.listen(process.env.PORT || 8000, () => {
 
 const url = process.env.URL;
 app.get('/getConvidados', (req, res, err) => {
-	console.log('pooo');
+	console.log('GETCONVIDADOS');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
