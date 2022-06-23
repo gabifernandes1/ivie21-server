@@ -35,7 +35,6 @@ app.get('/getConvidados', (req, res, err) => {
 		console.log(err);
 	}
 });
-
 app.post('/adicionar', (req, res, err) => {
 	console.log(req.body);
 	try {
