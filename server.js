@@ -64,7 +64,6 @@ app.post('/adicionar', (req, res, err) => {
 });
 
 app.post('/confirmacao', (req, res, err) => {
-	console.log('?');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
