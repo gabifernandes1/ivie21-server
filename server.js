@@ -36,7 +36,6 @@ app.get('/getConvidados', (req, res, err) => {
 	}
 });
 app.post('/adicionar', (req, res, err) => {
-	console.log(req.body);
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
@@ -48,6 +47,29 @@ app.post('/adicionar', (req, res, err) => {
 					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document inserted');
 					res.end('Success');
+					db.close();
+				});
+		});
+	} catch (e) {
+		console.log(err);
+	}
+});
+app.post('/confirmacao', (req, res, err) => {
+	try {
+		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
+			if (err) throw err;
+			let usuario = req.body.data;
+			let confirmacao = req.body.confirmacao;
+			var dbo = db.db('convidados');
+			var myquery = usuario;
+			var newvalues = { $set: { vou: confirmacao } };
+			dbo
+				.collection('convidados')
+				.updateOne(myquery, newvalues, function (err, response) {
+					if (err) throw err;
+					console.log('1 document updated');
+					res.header('Access-Control-Allow-Origin', '*');
+					res.send('1 document updated');
 					db.close();
 				});
 		});
