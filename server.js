@@ -126,7 +126,7 @@ app.post('/check', (req, res, err) => {
 				.collection('convidados')
 				.find(query)
 				.toArray(function (err, response) {
-					if (err) throw err;
+					if (err) res.send(err);
 					console.log(response, '?');
 					res.send(response);
 					db.close();
