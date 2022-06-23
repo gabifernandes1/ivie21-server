@@ -60,7 +60,7 @@ app.post('/adicionar', (req, res, err) => {
 });
 
 app.post('/confirmacao', (req, res, err) => {
-	console.log('?');
+	console.log('/CONFIRMACAO');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
@@ -68,14 +68,15 @@ app.post('/confirmacao', (req, res, err) => {
 			req.body.data._id = newId;
 			let usuario = req.body.data;
 			let confirmacao = req.body.confirmacao;
-			var dbo = db.db('convidados');
 			var myquery = usuario;
 			var newvalues = { $set: { vou: confirmacao } };
+			console.log(newvalues);
+			var dbo = db.db('convidados');
 			dbo
 				.collection('convidados')
 				.updateOne(myquery, newvalues, function (err, response) {
 					if (err) throw err;
-					console.log(response);
+					console.log(response, '/CONFIRMACAO');
 					res.setHeader('Access-Control-Allow-Origin', '*');
 					res.send('1 document updated');
 					db.close();
@@ -87,7 +88,7 @@ app.post('/confirmacao', (req, res, err) => {
 });
 
 app.post('/entrou', (req, res, err) => {
-	console.log('?');
+	console.log('/ENTROU');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
