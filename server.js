@@ -82,3 +82,26 @@ app.post('/confirmacao', (req, res, err) => {
 		console.log(err);
 	}
 });
+
+app.post('/check', (req, res, err) => {
+	try {
+		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
+			if (err) throw err;
+			let id = new ObjectID(req.body._id);
+			req.body._id = id;
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.find(req.body)
+				.toArray(function (err, response) {
+					if (err) throw err;
+					console.log(response);
+					res.header('Access-Control-Allow-Origin', '*');
+					res.send('1 convidado confirmed');
+					db.close();
+				});
+		});
+	} catch (e) {
+		console.log(err);
+	}
+});
