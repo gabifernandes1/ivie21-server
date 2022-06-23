@@ -4,6 +4,8 @@ const cors = require('cors');
 const axios = require('axios');
 const app = express();
 var MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectId;
+
 require('dotenv/config');
 
 app.use(express.json({ limit: '50mb' }));
@@ -55,9 +57,12 @@ app.post('/adicionar', (req, res, err) => {
 	}
 });
 app.post('/confirmacao', (req, res, err) => {
+	console.log('?');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
+			let newId = new ObjectID(req.body.data._id);
+			req.body.data._id = newId;
 			let usuario = req.body.data;
 			let confirmacao = req.body.confirmacao;
 			var dbo = db.db('convidados');
@@ -67,7 +72,7 @@ app.post('/confirmacao', (req, res, err) => {
 				.collection('convidados')
 				.updateOne(myquery, newvalues, function (err, response) {
 					if (err) throw err;
-					console.log('1 document updated');
+					console.log(response);
 					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document updated');
 					db.close();
