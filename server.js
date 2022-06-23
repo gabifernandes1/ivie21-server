@@ -97,7 +97,7 @@ app.post('/check', (req, res, err) => {
 					if (err) throw err;
 					console.log(response);
 					res.header('Access-Control-Allow-Origin', '*');
-					res.send('1 convidado confirmed');
+					res.send(response);
 					db.close();
 				});
 		});
