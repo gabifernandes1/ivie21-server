@@ -38,13 +38,14 @@ app.get('/getConvidados', (req, res, err) => {
 app.post('/adicionar', (req, res, err) => {
 	console.log(req.body);
 	try {
-		MongoClient.connect(url, function (err, db) {
+		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
 			var dbo = db.db('convidados');
 			dbo
 				.collection('convidados')
 				.insertOne(req.body, function (err, response) {
-					if (err) throw err;
+					if (err) throw 'err';
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document inserted');
 					res.end('Success');
 					db.close();
