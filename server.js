@@ -20,6 +20,7 @@ app.listen(process.env.PORT || 8000, () => {
 
 const url = process.env.URL;
 app.get('/getConvidados', (req, res, err) => {
+	console.log('pooo');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
@@ -82,20 +83,47 @@ app.post('/confirmacao', (req, res, err) => {
 		console.log(err);
 	}
 });
-
-app.post('/check', (req, res, err) => {
+app.post('/entrou', (req, res, err) => {
+	console.log('?');
 	try {
 		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
 			if (err) throw err;
-			let id = new ObjectID(req.body._id);
-			req.body._id = id;
+			var query = { _id: ObjectID(req.body[0]) };
+			console.log(query);
+			var newvalues = { $set: { ENTROU: 'S' } };
 			var dbo = db.db('convidados');
 			dbo
 				.collection('convidados')
-				.find(req.body)
-				.toArray(function (err, response) {
+				.updateOne(query, newvalues, function (err, response) {
 					if (err) throw err;
 					console.log(response);
+					res.header('Access-Control-Allow-Origin', '*');
+					res.send('1 document updated');
+					db.close();
+				});
+		});
+	} catch (e) {
+		console.log(err);
+	}
+});
+
+app.post('/check', (req, res, err) => {
+	console.log('oi');
+	try {
+		MongoClient.connect(url, { useUnifiedTopology: true }, function (err, db) {
+			if (err) throw err;
+			let id = ObjectID(req.body._id);
+			console.log(req.body);
+
+			var query = { _id: ObjectID(req.body[0]) };
+			console.log(query);
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.find(query)
+				.toArray(function (err, response) {
+					if (err) throw err;
+					console.log(response, '?');
 					res.header('Access-Control-Allow-Origin', '*');
 					res.send(response);
 					db.close();
