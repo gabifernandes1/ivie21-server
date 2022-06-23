@@ -35,3 +35,22 @@ app.get('/getConvidados', (req, res, err) => {
 		console.log(err);
 	}
 });
+app.post('/adicionar', (req, res, err) => {
+	console.log(req.body);
+	try {
+		MongoClient.connect(url, function (err, db) {
+			if (err) throw err;
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.insertOne(req.body, function (err, response) {
+					if (err) throw err;
+					res.send('1 document inserted');
+					res.end('Success');
+					db.close();
+				});
+		});
+	} catch (e) {
+		console.log(err);
+	}
+});
