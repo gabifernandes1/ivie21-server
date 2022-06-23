@@ -57,6 +57,7 @@ app.post('/adicionar', (req, res, err) => {
 		console.log(err);
 	}
 });
+
 app.post('/confirmacao', (req, res, err) => {
 	console.log('?');
 	try {
@@ -83,6 +84,7 @@ app.post('/confirmacao', (req, res, err) => {
 		console.log(err);
 	}
 });
+
 app.post('/entrou', (req, res, err) => {
 	console.log('?');
 	try {
