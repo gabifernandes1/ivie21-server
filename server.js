@@ -21,41 +21,33 @@ const url = process.env.URL;
 app.get('/getConvidados', (req, res, err) => {
 	console.log('GETCONVIDADOS');
 	try {
-		MongoClient.connect(
-			url,
-			cors({ origin: 'http://www.ivie.com' }),
-			function (err, db) {
-				if (err) throw err;
-				var dbo = db.db('convidados');
-				dbo.collection('convidados').find({});
-				req.res.toArray(function (err, result) {
-					if (err) throw 'err';
-					res.send(result);
-				});
-			}
-		);
+		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+			if (err) throw err;
+			var dbo = db.db('convidados');
+			dbo.collection('convidados').find({});
+			req.res.toArray(function (err, result) {
+				if (err) throw 'err';
+				res.send(result);
+			});
+		});
 	} catch (e) {
 		console.log(err);
 	}
 });
 app.post('/adicionar', (req, res, err) => {
 	try {
-		MongoClient.connect(
-			url,
-			cors({ origin: 'http://www.ivie.com' }),
-			function (err, db) {
-				if (err) throw err;
-				var dbo = db.db('convidados');
-				dbo
-					.collection('convidados')
-					.insertOne(req.body, function (err, response) {
-						if (err) throw 'err';
-						res.send('1 document inserted');
-						res.end('Success');
-						db.close();
-					});
-			}
-		);
+		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+			if (err) throw err;
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.insertOne(req.body, function (err, response) {
+					if (err) throw 'err';
+					res.send('1 document inserted');
+					res.end('Success');
+					db.close();
+				});
+		});
 	} catch (e) {
 		console.log(err);
 	}
@@ -64,29 +56,25 @@ app.post('/adicionar', (req, res, err) => {
 app.post('/confirmacao', (req, res, err) => {
 	console.log('/CONFIRMACAO');
 	try {
-		MongoClient.connect(
-			url,
-			cors({ origin: 'http://www.ivie.com' }),
-			function (err, db) {
-				if (err) throw err;
-				let newId = new ObjectID(req.body.data._id);
-				req.body.data._id = newId;
-				let usuario = req.body.data;
-				let confirmacao = req.body.confirmacao;
-				var myquery = usuario;
-				var newvalues = { $set: { vou: confirmacao } };
-				console.log(newvalues);
-				var dbo = db.db('convidados');
-				dbo
-					.collection('convidados')
-					.updateOne(myquery, newvalues, function (err, response) {
-						if (err) throw err;
-						console.log(response, '/CONFIRMACAO');
-						res.send('1 document updated');
-						db.close();
-					});
-			}
-		);
+		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+			if (err) throw err;
+			let newId = new ObjectID(req.body.data._id);
+			req.body.data._id = newId;
+			let usuario = req.body.data;
+			let confirmacao = req.body.confirmacao;
+			var myquery = usuario;
+			var newvalues = { $set: { vou: confirmacao } };
+			console.log(newvalues);
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.updateOne(myquery, newvalues, function (err, response) {
+					if (err) throw err;
+					console.log(response, '/CONFIRMACAO');
+					res.send('1 document updated');
+					db.close();
+				});
+		});
 	} catch (e) {
 		console.log(err);
 	}
@@ -95,25 +83,21 @@ app.post('/confirmacao', (req, res, err) => {
 app.post('/entrou', (req, res, err) => {
 	console.log('/ENTROU');
 	try {
-		MongoClient.connect(
-			url,
-			cors({ origin: 'http://www.ivie.com' }),
-			function (err, db) {
-				if (err) throw err;
-				var query = { _id: ObjectID(req.body[0]) };
-				console.log(query);
-				var newvalues = { $set: { ENTROU: 'S' } };
-				var dbo = db.db('convidados');
-				dbo
-					.collection('convidados')
-					.updateOne(query, newvalues, function (err, response) {
-						if (err) throw err;
-						console.log(response);
-						res.send('1 document updated');
-						db.close();
-					});
-			}
-		);
+		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+			if (err) throw err;
+			var query = { _id: ObjectID(req.body[0]) };
+			console.log(query);
+			var newvalues = { $set: { ENTROU: 'S' } };
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.updateOne(query, newvalues, function (err, response) {
+					if (err) throw err;
+					console.log(response);
+					res.send('1 document updated');
+					db.close();
+				});
+		});
 	} catch (e) {
 		console.log(err);
 	}
@@ -122,28 +106,24 @@ app.post('/entrou', (req, res, err) => {
 app.post('/check', (req, res, err) => {
 	console.log('oi');
 	try {
-		MongoClient.connect(
-			url,
-			cors({ origin: 'http://www.ivie.com' }),
-			function (err, db) {
-				if (err) throw err;
-				let id = ObjectID(req.body._id);
-				console.log(req.body);
+		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+			if (err) throw err;
+			let id = ObjectID(req.body._id);
+			console.log(req.body);
 
-				var query = { _id: ObjectID(req.body[0]) };
-				console.log(query);
-				var dbo = db.db('convidados');
-				dbo
-					.collection('convidados')
-					.find(query)
-					.toArray(function (err, response) {
-						if (err) throw err;
-						console.log(response, '?');
-						res.send(response);
-						db.close();
-					});
-			}
-		);
+			var query = { _id: ObjectID(req.body[0]) };
+			console.log(query);
+			var dbo = db.db('convidados');
+			dbo
+				.collection('convidados')
+				.find(query)
+				.toArray(function (err, response) {
+					if (err) throw err;
+					console.log(response, '?');
+					res.send(response);
+					db.close();
+				});
+		});
 	} catch (e) {
 		console.log(err);
 	}
