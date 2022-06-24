@@ -11,12 +11,7 @@ require('dotenv/config');
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
 
-app.use(
-	cors({
-		methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH', 'OPTIONS'],
-		origin: '*',
-	})
-);
+app.use(cors({ origin: '*' }));
 const port = process.env.PORT || 8000;
 
 app.listen(process.env.PORT || 8000, () => {
