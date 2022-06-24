@@ -28,6 +28,7 @@ app.get('/getConvidados', (req, res, err) => {
 			req.res.toArray(function (err, result) {
 				if (err) throw 'err';
 				res.send(result);
+				db.close();
 			});
 		});
 	} catch (e) {
