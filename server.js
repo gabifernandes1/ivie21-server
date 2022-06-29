@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-var cors = require('cors');
+const cors = require('cors');
 const axios = require('axios');
 const app = express();
 var MongoClient = require('mongodb').MongoClient;
@@ -10,16 +10,7 @@ require('dotenv/config');
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
-app.use(
-	cors({
-		origin: [
-			'https://ivie21.com/',
-			'*',
-			'https://ivie21-server.herokuapp.com/',
-		],
-	})
-);
-
+app.use(cors());
 const port = process.env.PORT || 8000;
 
 app.listen(process.env.PORT || 8000, () => {
@@ -33,12 +24,15 @@ app.get('/getConvidados', (req, res, err) => {
 		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			var dbo = db.db('convidados');
-			dbo.collection('convidados').find({});
-			req.res.toArray(function (err, result) {
-				if (err) throw 'err';
-				res.send(result);
-				db.close();
-			});
+			dbo
+				.collection('convidados')
+				.find({})
+				.toArray(function (err, result) {
+					if (err) throw 'err';
+					res.send(result);
+					res.header('Access-Control-Allow-Origin', '*');
+					db.close();
+				});
 		});
 	} catch (e) {
 		console.log(err);
@@ -55,7 +49,7 @@ app.post('/adicionar', (req, res, err) => {
 					if (err) throw 'err';
 					res.send('1 document inserted');
 					res.end('Success');
-
+					res.header('Access-Control-Allow-Origin', '*');
 					db.close();
 				});
 		});
@@ -83,7 +77,7 @@ app.post('/confirmacao', (req, res, err) => {
 					if (err) throw err;
 					console.log(response, '/CONFIRMACAO');
 					res.send('1 document updated');
-
+					res.header('Access-Control-Allow-Origin', '*');
 					db.close();
 				});
 		});
@@ -107,7 +101,7 @@ app.post('/entrou', (req, res, err) => {
 					if (err) throw err;
 					console.log(response);
 					res.send('1 document updated');
-
+					res.header('Access-Control-Allow-Origin', '*');
 					db.close();
 				});
 		});
@@ -134,7 +128,7 @@ app.post('/check', (req, res, err) => {
 					if (err) throw err;
 					console.log(response, '?');
 					res.send(response);
-
+					res.header('Access-Control-Allow-Origin', '*');
 					db.close();
 				});
 		});
