@@ -33,7 +33,7 @@ app.get('/getConvidados', (req, res, err) => {
 				.find({})
 				.toArray(function (err, result) {
 					if (err) throw 'err';
-
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send(result);
 					db.close();
 				});
@@ -51,7 +51,7 @@ app.post('/adicionar', (req, res, err) => {
 				.collection('convidados')
 				.insertOne(req.body, function (err, response) {
 					if (err) throw err;
-
+					res.header('Access-Control-Allow-Origin', '*');
 					res.send('1 document inserted');
 					res.end('Success');
 					db.close();
@@ -79,7 +79,7 @@ app.post('/confirmacao', (req, res, err) => {
 				.collection('convidados')
 				.updateOne(myquery, newvalues, function (err, response) {
 					if (err) throw err;
-
+					res.header('Access-Control-Allow-Origin', '*');
 					console.log(response, '/CONFIRMACAO');
 					res.send('1 document updated');
 					db.close();
@@ -103,7 +103,7 @@ app.post('/entrou', (req, res, err) => {
 				.collection('convidados')
 				.updateOne(query, newvalues, function (err, response) {
 					if (err) throw err;
-
+					res.header('Access-Control-Allow-Origin', '*');
 					console.log(response);
 					res.send('1 document updated');
 					db.close();
@@ -130,7 +130,7 @@ app.post('/check', (req, res, err) => {
 				.find(query)
 				.toArray(function (err, response) {
 					if (err) throw err;
-
+					res.header('Access-Control-Allow-Origin', '*');
 					console.log(response, '?');
 					res.send(response);
 					db.close();
