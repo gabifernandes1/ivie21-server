@@ -10,6 +10,7 @@ require('dotenv/config');
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb' }));
+app.use(cors());
 
 const port = process.env.PORT || 8000;
 
@@ -21,14 +22,13 @@ const url = process.env.URL;
 app.get('/getConvidados', (req, res, err) => {
 	console.log('GETCONVIDADOS');
 	try {
-		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			var dbo = db.db('convidados');
 			dbo.collection('convidados').find({});
 			req.res.toArray(function (err, result) {
 				if (err) throw 'err';
 				res.send(result);
-				res.header('Access-Control-Allow-Origin', '*');
 				db.close();
 			});
 		});
@@ -38,7 +38,7 @@ app.get('/getConvidados', (req, res, err) => {
 });
 app.post('/adicionar', (req, res, err) => {
 	try {
-		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			var dbo = db.db('convidados');
 			dbo
@@ -47,7 +47,7 @@ app.post('/adicionar', (req, res, err) => {
 					if (err) throw 'err';
 					res.send('1 document inserted');
 					res.end('Success');
-					res.header('Access-Control-Allow-Origin', '*');
+
 					db.close();
 				});
 		});
@@ -59,7 +59,7 @@ app.post('/adicionar', (req, res, err) => {
 app.post('/confirmacao', (req, res, err) => {
 	console.log('/CONFIRMACAO');
 	try {
-		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			let newId = new ObjectID(req.body.data._id);
 			req.body.data._id = newId;
@@ -75,7 +75,7 @@ app.post('/confirmacao', (req, res, err) => {
 					if (err) throw err;
 					console.log(response, '/CONFIRMACAO');
 					res.send('1 document updated');
-					res.header('Access-Control-Allow-Origin', '*');
+
 					db.close();
 				});
 		});
@@ -87,7 +87,7 @@ app.post('/confirmacao', (req, res, err) => {
 app.post('/entrou', (req, res, err) => {
 	console.log('/ENTROU');
 	try {
-		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			var query = { _id: ObjectID(req.body[0]) };
 			console.log(query);
@@ -99,7 +99,7 @@ app.post('/entrou', (req, res, err) => {
 					if (err) throw err;
 					console.log(response);
 					res.send('1 document updated');
-					res.header('Access-Control-Allow-Origin', '*');
+
 					db.close();
 				});
 		});
@@ -111,7 +111,7 @@ app.post('/entrou', (req, res, err) => {
 app.post('/check', (req, res, err) => {
 	console.log('oi');
 	try {
-		MongoClient.connect(url, cors({ origin: '*' }), function (err, db) {
+		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			let id = ObjectID(req.body._id);
 			console.log(req.body);
@@ -126,7 +126,7 @@ app.post('/check', (req, res, err) => {
 					if (err) throw err;
 					console.log(response, '?');
 					res.send(response);
-					res.header('Access-Control-Allow-Origin', '*');
+
 					db.close();
 				});
 		});
