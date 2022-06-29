@@ -29,7 +29,7 @@ app.get('/getConvidados', (req, res, err) => {
 				.find({})
 				.toArray(function (err, result) {
 					if (err) throw 'err';
-					console.log(result);
+					// console.log(result);
 					res.send(result);
 					db.close();
 				});
@@ -48,7 +48,6 @@ app.post('/adicionar', (req, res, err) => {
 				.insertOne(req.body, function (err, response) {
 					if (err) throw err;
 					res.send('1 document inserted');
-					res.end('Success');
 					db.close();
 				});
 		});
