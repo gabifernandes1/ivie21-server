@@ -29,7 +29,6 @@ app.get('/getConvidados', (req, res, err) => {
 				.find({})
 				.toArray(function (err, result) {
 					if (err) throw 'err';
-					// console.log(result);
 					res.send(result);
 					db.close();
 				});
@@ -47,7 +46,6 @@ app.post('/adicionar', (req, res, err) => {
 				.collection('convidados')
 				.insertOne(req.body, function (err, response) {
 					if (err) throw err;
-					console.log(response, '?');
 					res.send(response);
 					db.close();
 				});
@@ -68,13 +66,11 @@ app.post('/confirmacao', (req, res, err) => {
 			let confirmacao = req.body.confirmacao;
 			var myquery = usuario;
 			var newvalues = { $set: { vou: confirmacao } };
-			console.log(newvalues);
 			var dbo = db.db('convidados');
 			dbo
 				.collection('convidados')
 				.updateOne(myquery, newvalues, function (err, response) {
 					if (err) throw err;
-					console.log(response, '/CONFIRMACAO');
 					res.send('1 document updated');
 					db.close();
 				});
@@ -90,14 +86,12 @@ app.post('/entrou', (req, res, err) => {
 		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			var query = { _id: ObjectID(req.body[0]) };
-			console.log(query);
 			var newvalues = { $set: { ENTROU: 'S' } };
 			var dbo = db.db('convidados');
 			dbo
 				.collection('convidados')
 				.updateOne(query, newvalues, function (err, response) {
 					if (err) throw err;
-					console.log(response);
 					res.send('1 document updated');
 					db.close();
 				});
@@ -108,22 +102,19 @@ app.post('/entrou', (req, res, err) => {
 });
 
 app.post('/check', (req, res, err) => {
-	console.log('oi');
+	console.log('/check');
 	try {
 		MongoClient.connect(url, function (err, db) {
 			if (err) throw err;
 			let id = ObjectID(req.body._id);
-			console.log(req.body);
 
 			var query = { _id: ObjectID(req.body[0]) };
-			console.log(query);
 			var dbo = db.db('convidados');
 			dbo
 				.collection('convidados')
 				.find(query)
 				.toArray(function (err, response) {
 					if (err) throw err;
-					console.log(response, '?');
 					res.send(response);
 					db.close();
 				});
