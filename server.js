@@ -48,7 +48,7 @@ app.post('/adicionar', (req, res, err) => {
 				.insertOne(req.body, function (err, response) {
 					if (err) throw err;
 					console.log(response, '?');
-					res.send(response.data);
+					res.send(response);
 					db.close();
 				});
 		});
