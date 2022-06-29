@@ -47,6 +47,7 @@ app.post('/adicionar', (req, res, err) => {
 				.collection('convidados')
 				.insertOne(req.body, function (err, response) {
 					if (err) throw err;
+					console.log(response.data);
 					res.send(response.data);
 					db.close();
 				});
