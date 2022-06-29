@@ -46,7 +46,7 @@ app.post('/adicionar', (req, res, err) => {
 			dbo
 				.collection('convidados')
 				.insertOne(req.body, function (err, response) {
-					if (err) throw 'err';
+					if (err) throw err;
 					res.send('1 document inserted');
 					res.end('Success');
 					res.header('Access-Control-Allow-Origin', '*');
