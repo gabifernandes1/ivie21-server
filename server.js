@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
+var cors = require('cors');
 const axios = require('axios');
 const app = express();
 var MongoClient = require('mongodb').MongoClient;
